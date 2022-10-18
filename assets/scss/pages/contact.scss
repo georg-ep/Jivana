@@ -1,0 +1,27 @@
+.contact {
+  color: black;
+  text-align: center;
+
+  .form {
+    background: rgba($color: white, $alpha: 0.6);
+    padding: 24px;
+    border-radius: 4px;
+    width: 800px;
+    margin: 0 auto;
+
+    .input-row {
+      @media (max-width: 900px) {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 900px) {
+      width: 100%;
+      margin: 0;
+    }
+  }
+
+  .title {
+    font-size: 32px;
+  }
+}

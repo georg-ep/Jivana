@@ -1,0 +1,103 @@
+.landing {
+  .cover-image {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    z-index: 1;
+    filter: brightness(30%);
+    background-image: url("@/assets/images/landing-spices.jpeg");
+
+    @media (max-width: 1150px) {
+      height: 100vh;
+    }
+  }
+
+  .landing-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .search-field {
+      width: 50%;
+
+      @media (max-width: 600px) {
+        width: 100%;
+      }
+    }
+
+    &_content {
+      z-index: 10;
+      width: 100%;
+
+      .catalog {
+        margin-right: 36px;
+
+        .item {
+          display: flex;
+          align-items: center;
+          border: 1px solid transparent;
+          padding: 5px;
+          transition: 0.2s ease-in-out;
+
+          &:hover {
+            border: 1px solid grey;
+            background: rgba(white, 0.1);
+            border-radius: 2px;
+          }
+
+          .label {
+            width: 150px;
+            margin-right: 12px;
+          }
+
+          &:not(:last-child) {
+            margin-bottom: 24px;
+          }
+
+          .thumbnail {
+            height: 60px;
+            width: 60px;
+          }
+        }
+      }
+
+      .title {
+        font-size: 72px;
+
+        @media (max-width: 800px) {
+          text-align: center;
+          font-size: 48px;
+        }
+      }
+      
+      .subtitle {
+        font-size: 24px;
+        color: #c4c4c4;
+        @media (max-width: 800px) {
+          text-align: center;
+          font-size: 18px;
+        }
+      }
+
+      .quick-actions {
+        margin-top: 24px;
+        display: flex;
+        align-items: center;
+
+        @media (max-width: 800px) {
+          justify-content: center;
+        }
+
+        .button {
+          &:not(:last-child) {
+            margin-right: 12px;
+          }
+        }
+      }
+
+
+    }
+  }
+}

@@ -1,0 +1,110 @@
+.footer {
+  background: black;
+  color: white;
+  padding: 20px;
+
+  .container {
+    @media (max-width: 720px) {
+      margin: 0;
+      width: 100%;
+    }
+  }
+
+  .footer-blocks {
+    display: flex;
+    justify-content: space-between;
+
+    @media (max-width: 720px) {
+      display: block;
+    }
+
+    .block {
+      max-width: 300px;
+
+      @media (max-width: 720px) {
+        max-width: 100%;
+      }
+
+      .extra {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        @media (max-width: 720px) {
+          flex-direction: row;
+          justify-content: center;
+        }
+      }
+      @media (max-width: 720px) {
+        margin-bottom: 24px;
+      }
+    }
+  }
+
+  .heading {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  .subheading {
+    font-size: 14px;
+    color: rgba($color: white, $alpha: 0.8);
+  }
+
+  .link {
+    color: rgba($color: white, $alpha: 0.6);
+    transition: 0.2s ease-in-out;
+
+    &:not(:last-child) {
+      margin-bottom: 4px;
+    }
+
+    &:hover {
+      cursor: pointer;
+      color: rgba($color: white, $alpha: 0.7);
+    }
+
+    &:active {
+      color: rgba($color: white, $alpha: 0.4);
+    }
+  }
+
+  .food-rating {
+    height: 80px;
+    width: auto;
+    margin-bottom: 12px;
+
+    @media (max-width: 720px) {
+      margin-right: 12px;
+      margin-bottom: 0;
+    }
+  }
+
+  .vegan {
+    height: 60px;
+    width: auto;
+  }
+
+  .copyright {
+    margin-top: 12px;
+  }
+  
+
+  .copyright, .address {
+    color: rgba($color: white, $alpha: 0.5);
+
+    @media (max-width: 720px) {
+      text-align: center;
+    }
+  }
+
+  .payment-icon {
+    width: 40px;
+    height: 40px;
+  
+    &:not(:last-child) {
+      margin-right: 12px;
+    }
+  }
+
+}

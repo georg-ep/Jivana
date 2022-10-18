@@ -1,0 +1,54 @@
+.scaffold {
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s ease-in-out;
+  color: white;
+  z-index: 40;
+
+  .content {
+    opacity: 0;
+    transition: 0.2s ease-in-out;
+    
+    @media (max-width: 710px) {
+      width: 100%;
+    }
+
+    &_visible {
+      opacity: 1;
+
+    }
+  }
+  
+  .close {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    height: 40px;
+    width: 40px;
+    display: none;
+
+    @media (max-width: 710px) {
+      top: 16px;
+      right: 16px;
+    }
+
+    &_visible {
+      display: block;
+    }
+  }
+  
+  &_active {
+    height: 100vh;
+    overflow: visible;
+  }
+  
+  &_inactive {
+    height: 0;
+    overflow: hidden;
+  }
+}

@@ -1,0 +1,16 @@
+.product {
+    background: white;
+    color: black;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+
+    @media (max-width: 600px) {
+      display: block;
+    }
+
+    &_details {
+      margin-left: 12px;
+    }
+}
