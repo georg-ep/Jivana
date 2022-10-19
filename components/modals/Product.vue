@@ -1,14 +1,21 @@
 <template>
   <Scaffold :type="'product'" :background="'#00000070'" :show="show">
     <div class="container">
-      <div class="product flex">
-        <img class="image" src="~/assets/images/store-images/1.jpeg" alt="" />
+      <div v-if="product" class="product flex">
+        <img
+          class="image"
+          v-if="product.images[0]"
+          :src="product.images[0].src"
+          :class="imageLoaded ? 'image_show' : 'image_hide'"
+          alt=""
+          @load="loadImage"
+        />
         <div class="product_details">
-          <div class="title mb-12">Some product name</div>
+          <div class="title mb-12">{{ product.title }}</div>
           <div class="label">Price</div>
-          <div class="price mb-24">£333333</div>
+          <div class="price mb-24">£{{ getPrice }}</div>
           <div class="label">Quantity</div>
-          <div class="field-wrapper">
+          <div class="field-wrapper mb-12">
             <Input
               class="mb-12"
               :model.sync="quantity"
@@ -17,10 +24,6 @@
               :type="'number'"
             />
           </div>
-          <div @click="select()">Here is a test</div>
-          <select id="select" hidden>
-            <option value="test">Test</option>
-          </select>
           <Button
             :text="'Add to cart'"
             :backgroun="'transparent'"
@@ -28,7 +31,7 @@
             :text-colour="'#0058E1'"
             :height="'30px'"
           />
-          <div class="underline mt-24">View more details</div>
+          <div @click="toDetail" class="underline mt-24 pointer">View more details</div>
         </div>
       </div>
     </div>
@@ -43,17 +46,39 @@ export default {
   data() {
     return {
       quantity: "1",
+      imageLoaded: false,
     };
   },
   props: {
+    product: {
+      type: Object,
+      required: true,
+    },
     show: {
       type: Boolean,
       default: false,
     },
   },
+  computed: {
+    getPrice() {
+      return Number(this.product.variants[0].price.amount).toFixed(2);
+    },
+    productId() {
+      const sid = this.product.id;
+      const lastIdx = sid.lastIndexOf("/");
+      return sid.slice(lastIdx + 1);
+    },
+  },
   methods: {
+    loadImage() {
+      this.imageLoaded = true;
+    },
     select() {
       document.getElementById("select").click();
+    },
+    toDetail() {
+      this.$store.commit("setModal", null);
+      this.$router.push(`/shop/${this.productId}`);
     },
   },
 };

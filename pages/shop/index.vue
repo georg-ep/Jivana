@@ -2,6 +2,8 @@
   <div class="container container_spacing">
     <div class="shop">
       <div class="shop_search">
+        <div class="heading mb-8">Quick Search</div>
+        <div class="search-wrapper">
         <Input
           class="mb-24"
           :model.sync="search"
@@ -10,6 +12,7 @@
           :text-colour="'black'"
           :placeholder="'What are you looking for?'"
         />
+        </div>
       </div>
       <div v-if="products" class="shop_items">
         <Product
@@ -17,6 +20,9 @@
           :key="`product_${index}`"
           :product="product"
         />
+      </div>
+      <div v-else class="spinner-wrapper">
+        <Spinner :colour="'black'" />
       </div>
     </div>
   </div>
@@ -40,7 +46,6 @@ export default {
       storefrontAccessToken: "a690ca678ddc3b84bbbf089ce89b81e3",
     });
     this.products = await this.client.product.fetchAll();
-    console.log(this.products);
   },
 };
 </script>

@@ -1,11 +1,28 @@
 <template>
   <div class="container container_spacing">
-    <div class="product-detail">
+    <div v-if="product" class="product-detail">
       <div class="product-detail_row mb-24">
-        <img class="image" src="~/assets/images/store-images/1.jpeg" alt="" />
+        <img
+          class="image"
+          v-if="product.images[0]"
+          :src="product.images[0].src"
+          alt=""
+          :class="imageLoaded ? 'image_show' : 'image_hide'"
+          @load="loadImage"
+        />
+        <div v-else>Upload Image</div>
+        <div
+          v-if="product.images.length && !imageLoaded"
+          class="flex center align-center image"
+        >
+          <Spinner :colour="'black'" />
+        </div>
         <div class="product-detail_details">
-          <div class="title">Product Name</div>
-          <div class="price mb-24">£600</div>
+          <div class="title">{{ product.title }}</div>
+          <div class="price mb-24">£{{ getPrice }}</div>
+
+          <div v-if="hasWeight" class="label">Weight</div>
+
           <div class="label">Quantity</div>
           <div class="buttons-wrapper mb-24">
             <Button
@@ -41,7 +58,7 @@
           <div class="flex space-between align-center add-to-cart">
             <div class="total">
               <div class="label">Total</div>
-              <div>£9999.99</div>
+              <div>£{{ getTotal }}</div>
             </div>
             <Button
               :text="'Add to cart'"
@@ -82,26 +99,61 @@
         <div class="description">All packaging is recycled and recyclable.</div>
       </div>
     </div>
+    <div class="flex align-center w-100 center" v-else>
+      <Spinner :colour="'black'" />
+    </div>
   </div>
 </template>
 
 <script>
+import Client from "shopify-buy";
+
 export default {
   name: "ProductDetailPage",
   data() {
     return {
-      quantity: 1,
-      quantities: [1, 2, 3, 4, 5, 6, 7, 8],
+      quantity: 0,
+      quantities: [1, 2, 3, 4, 5, 6],
       serving: 0,
-      servingSizes: [1, 2, 3, 4, 5, 6, 7, 8],
+      servingSizes: [2, 4, 6],
+      product: null,
+      imageLoaded: false,
     };
   },
+  async mounted() {
+    this.client = Client.buildClient({
+      domain: "jivana-spices.myshopify.com",
+      storefrontAccessToken: "a690ca678ddc3b84bbbf089ce89b81e3",
+    });
+    const id = `gid://shopify/Product/${this.$route.params.id}`;
+    this.product = await this.client.product.fetch(id);
+    console.log(this.product);
+  },
+
   computed: {
+    hasWeight() {
+      let hasWeight = false;
+      this.product.options.forEach((option) => {
+        if(option.name === "Size") {
+          hasWeight = true;
+        }
+      });
+      return hasWeight;
+    },
     selected() {
       return (idx, key) => this[key] === idx;
     },
+    getPrice() {
+      return Number(this.product.variants[0].price.amount).toFixed(2);
+    },
+    getTotal() {
+      return Number(this.getPrice * (this.quantity + 1)).toFixed(2);
+    },
   },
   methods: {
+    loadImage() {
+      setTimeout(() => (this.imageLoaded = true), 200);
+    },
     select(idx, key) {
       this[key] = idx;
     },

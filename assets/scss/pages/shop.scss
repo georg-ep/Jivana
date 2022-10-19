@@ -1,5 +1,22 @@
 .shop {
 
+  .spinner-wrapper {
+    padding: 40px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .heading {
+    font-size: 24px;
+    color: black;
+  }
+
+  .search-wrapper {
+    width: 50%;
+  }
+
   &_items {
     display: grid;
     grid-template-columns: repeat(5, 1fr);

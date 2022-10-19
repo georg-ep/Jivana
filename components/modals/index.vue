@@ -1,7 +1,10 @@
 <template>
   <div>
     <Auth :show="modal && modal.type === 'auth' && modal.show" />
-    <Product :show="modal && modal.type === 'product-overview' && modal.show" />
+    <Product
+      :show="modal && modal.type === 'product-overview' && modal.show"
+      :product="modal && modal.data"
+    />
   </div>
 </template>
 

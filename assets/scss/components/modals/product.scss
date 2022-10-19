@@ -1,16 +1,32 @@
 .product {
-    background: white;
-    color: black;
-    padding: 20px;
-    border-radius: 8px;
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+
+  .image {
+    width: 400px;
+    height: auto;
     display: flex;
     align-items: center;
+    justify-content: center;
 
-    @media (max-width: 600px) {
+    &_hide {
+      display: none;
+    }
+
+    &_show {
       display: block;
     }
+  }
 
-    &_details {
-      margin-left: 12px;
-    }
+  @media (max-width: 600px) {
+    display: block;
+  }
+
+  &_details {
+    margin-left: 24px;
+  }
 }

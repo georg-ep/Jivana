@@ -35,6 +35,7 @@
               :border-radius="'4px'"
               :font-size="'20px'"
               :text-colour="'white'"
+              @click="$router.push('/our-story/')"
             />
             <Button
               class="button"
@@ -44,6 +45,7 @@
               :border-radius="'4px'"
               :font-size="'20px'"
               :text-colour="'white'"
+              @click="$router.push('/shop/')"
             />
           </div>
         </div>
