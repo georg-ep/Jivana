@@ -4,8 +4,9 @@
       <div class="product-detail_row mb-24">
         <img
           class="image"
-          v-if="product.images[0]"
-          :src="product.images[0].src"
+          v-if="selectedImage"
+          :src="selectedImage"
+          @click="updateImage"
           alt=""
           :class="imageLoaded ? 'image_show' : 'image_hide'"
           @load="loadImage"
@@ -18,10 +19,10 @@
           <Spinner :colour="'black'" />
         </div>
         <div class="product-detail_details">
-          <div class="title">{{ product.title }}</div>
-          <div class="price mb-24">£{{ getPrice }}</div>
+          <div class="title mb-24">{{ product.title }}</div>
 
           <div v-if="hasWeight" class="label">Weight</div>
+          <div v-if="hasWeight" class="mb-24">{{ weights[0] }}</div>
 
           <div class="label">Quantity</div>
           <div class="buttons-wrapper mb-24">
@@ -73,16 +74,12 @@
       </div>
       <div class="section mb-24">
         <div class="subtitle">What's it all about?</div>
-        <div class="description">
-          A delicious, hearty meal, based on a recipe from our time spent in the
-          Middle East, this dish is deeply aromatic and flavoursome, as well as
-          being heathly, full of protein and nutrients. Tarka dal is one of the
-          most popular lentil dishes, with tarka being onions, tomatoes and
-          spices, which are then added to the lentils, or dal. Suitable for a
-          vegan and vegetarian diet.
-        </div>
+        <div class="description" v-html="product.descriptionHtml" />
+        <!-- <div class="description">
+          {{ product.descriptionHtml }}
+        </div> -->
       </div>
-      <div class="section">
+      <!-- <div class="section">
         <div class="subtitle">What's included?</div>
         <div class="description mb-8">
           Basmati rice, red split lentils, moong dal (split yellow lentils), all
@@ -97,7 +94,7 @@
         </div>
         <div class="description mb-8">Fresh ingredients not included.</div>
         <div class="description">All packaging is recycled and recyclable.</div>
-      </div>
+      </div> -->
     </div>
     <div class="flex align-center w-100 center" v-else>
       <Spinner :colour="'black'" />
@@ -114,10 +111,13 @@ export default {
     return {
       quantity: 0,
       quantities: [1, 2, 3, 4, 5, 6],
+      servingSizes: [],
       serving: 0,
-      servingSizes: [2, 4, 6],
       product: null,
+      weights: [],
       imageLoaded: false,
+      selectedImage: null,
+      imageIndex: 0,
     };
   },
   async mounted() {
@@ -127,6 +127,18 @@ export default {
     });
     const id = `gid://shopify/Product/${this.$route.params.id}`;
     this.product = await this.client.product.fetch(id);
+    this.selectedImage = this.product.images[this.imageIndex]?.src;
+    const servingRaw = this.product.options.find(
+      (obj) => obj.name === "Serving"
+    );
+    const weightsRaw = this.product.options.find(
+      (obj) => obj.name === "Weight"
+    );
+    if (servingRaw)
+      servingRaw.values.forEach((size) => this.servingSizes.push(size.value));
+    if (weightsRaw)
+      weightsRaw.values.forEach((weight) => this.weights.push(weight.value));
+    console.log(this.weights);
     console.log(this.product);
   },
 
@@ -134,7 +146,7 @@ export default {
     hasWeight() {
       let hasWeight = false;
       this.product.options.forEach((option) => {
-        if(option.name === "Size") {
+        if (option.name === "Weight") {
           hasWeight = true;
         }
       });
@@ -151,6 +163,12 @@ export default {
     },
   },
   methods: {
+    updateImage() {
+      if (this.imageIndex !== this.product.images.length - 1) this.imageIndex++;
+      else this.imageIndex = 0;
+      console.log(this.product.images.length, this.imageIndex);
+      this.selectedImage = this.product.images[this.imageIndex]?.src;
+    },
     loadImage() {
       setTimeout(() => (this.imageLoaded = true), 200);
     },
