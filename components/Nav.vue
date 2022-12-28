@@ -78,10 +78,14 @@
             @click="showAuth('register')"
           />
           <img
-            class="cart"
+            class="cart pointer"
+            @click="toCart"
             src="~/assets/icons/white-shopping-cart.svg"
             alt=""
           />
+          <div v-if="cartSize" style="color: white">
+            {{ cartSize }}
+          </div>
         </div>
       </div>
     </div>
@@ -145,7 +149,12 @@ export default {
           name: "contact",
         },
       ],
+      cartSize: 0,
     };
+  },
+  mounted() {
+    this.$nuxt.$on("updateCart", () => this.fetchCart());
+    this.fetchCart();
   },
   computed: {
     isSelected() {
@@ -171,6 +180,17 @@ export default {
     },
   },
   methods: {
+    toCart() {
+      this.$router.push("/shop/checkout/");
+    },
+    fetchCart() {
+      if (localStorage.getItem("jivana_cart")) {
+        const products = JSON.parse(localStorage.getItem("jivana_cart"));
+        let items = 0;
+        products.forEach((product) => (items += product.quantity));
+        this.cartSize = items;
+      }
+    },
     navRoute(item) {
       this.$router.push(`/${item.route}`);
       setTimeout(() => (this.showMenu = false), 500);

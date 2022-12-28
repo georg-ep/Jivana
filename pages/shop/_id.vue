@@ -64,6 +64,7 @@
             <Button
               :text="'Add to cart'"
               :background="'black'"
+              @click="addToCart"
               :border="'1px solid black'"
               :text-colour="'white'"
               :height="'40px'"
@@ -161,8 +162,30 @@ export default {
     getTotal() {
       return Number(this.getPrice * (this.quantity + 1)).toFixed(2);
     },
+    userCart() {
+      return localStorage.getItem("jivana_cart");
+    },
   },
   methods: {
+    addToCart() {
+      let products = [];
+      if (this.userCart) {
+        products = JSON.parse(this.userCart);
+      }
+
+      const product = products.find((item) => item.id === this.product.variants[0].id);
+      product
+        ? (product["quantity"] = this.quantity + 1)
+        : products.push({
+            id: this.product.variants[0].id,
+            name: this.product.title,
+            thumbnail: this.product.images[0]?.src,
+            quantity: this.quantity + 1,
+          });
+
+      localStorage.setItem("jivana_cart", JSON.stringify(products));
+      this.$nuxt.$emit("updateCart");
+    },
     updateImage() {
       if (this.imageIndex !== this.product.images.length - 1) this.imageIndex++;
       else this.imageIndex = 0;
