@@ -76,26 +76,7 @@
       <div class="section mb-24">
         <div class="subtitle">What's it all about?</div>
         <div class="description" v-html="product.descriptionHtml" />
-        <!-- <div class="description">
-          {{ product.descriptionHtml }}
-        </div> -->
       </div>
-      <!-- <div class="section">
-        <div class="subtitle">What's included?</div>
-        <div class="description mb-8">
-          Basmati rice, red split lentils, moong dal (split yellow lentils), all
-          spices (turmeric, ground ginger, ground garlic, MUSTARD seeds, nigella
-          (onion) seeds, curry leaves, whole dried chillis, salt, Jivana garam
-          masala), recipe card. All portions are pre-measured so there is zero
-          waste.
-        </div>
-        <div class="description mb-8">
-          Meal Box Price per person for: 2 servings = £4 each, 4 servings =
-          £3.75 each, 6 servings = £3.50 each, 8 servings = £3.25.
-        </div>
-        <div class="description mb-8">Fresh ingredients not included.</div>
-        <div class="description">All packaging is recycled and recyclable.</div>
-      </div> -->
     </div>
     <div class="flex align-center w-100 center" v-else>
       <Spinner :colour="'black'" />
@@ -181,6 +162,7 @@ export default {
             name: this.product.title,
             thumbnail: this.product.images[0]?.src,
             quantity: this.quantity + 1,
+            price: this.getPrice,
           });
 
       localStorage.setItem("jivana_cart", JSON.stringify(products));
@@ -189,7 +171,6 @@ export default {
     updateImage() {
       if (this.imageIndex !== this.product.images.length - 1) this.imageIndex++;
       else this.imageIndex = 0;
-      console.log(this.product.images.length, this.imageIndex);
       this.selectedImage = this.product.images[this.imageIndex]?.src;
     },
     loadImage() {

@@ -66,9 +66,23 @@
 }
 
 .cart {
-  height: 30px;
-  width: 30px;
   margin-left: 12px;
+  position: relative;
+
+  &_icon {
+    height: 30px;
+    width: 30px;
+  }
+
+  &_size {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    background: #6395F8;
+    padding: 4px;
+    clip-path: circle();
+    border-radius: 5px;
+  }
 }
 
 .flex-col-mobile {

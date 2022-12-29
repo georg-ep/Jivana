@@ -63,7 +63,7 @@
           </div>
         </div>
         <div class="flex center nav-auth hide-mobile">
-          <Button
+          <!-- <Button
             class="mr-8"
             :text="'Login'"
             :height="'30px'"
@@ -76,15 +76,17 @@
             :text="'Sign up'"
             :height="'30px'"
             @click="showAuth('register')"
-          />
-          <img
-            class="cart pointer"
-            @click="toCart"
-            src="~/assets/icons/white-shopping-cart.svg"
-            alt=""
-          />
-          <div v-if="cartSize" style="color: white">
-            {{ cartSize }}
+          /> -->
+          <div class="cart">
+            <img
+              class="cart_icon pointer"
+              @click="toCart"
+              src="~/assets/icons/white-shopping-cart.svg"
+              alt=""
+            />
+            <div v-if="cartSize" class="cart_size">
+              {{ cartSize }}
+            </div>
           </div>
         </div>
       </div>

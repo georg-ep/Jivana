@@ -14,6 +14,10 @@ export default {
       type: String,
       required: true,
     },
+    itemType: {
+      type: String,
+      default: "",
+    },
     items: {
       type: Array,
       required: true,

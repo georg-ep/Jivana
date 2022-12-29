@@ -3,7 +3,7 @@
     <div class="input-wrapper" :style="wrapperStyles">
       <input
         v-if="!textarea"
-        :id="id"
+        :id="_uid"
         v-model="input"
         :style="styles"
         :placeholder="placeholder"
@@ -20,7 +20,16 @@
         <img :style="iconStyles" class="icon" :src="getIcon" alt="search" />
       </div>
     </div>
-    <InputItems :items="items" :model="model" />
+    <div class="items">
+      <div
+        v-for="(item, index) in items"
+        :key="`item_${index}`"
+        :class="{ item_visible: showItem(item) }"
+        class="item"
+      >
+        <slot name="dropdown-item" :product="item" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -84,9 +93,24 @@ export default {
   data() {
     return {
       id: null,
+      isActive: false,
     };
   },
+  mounted() {
+    const input = document.getElementById(this._uid);
+    input.addEventListener("focusin", () => (this.isActive = true));
+    input.addEventListener("focusout", () => setTimeout(() => (this.isActive = false), 200));
+  },
   computed: {
+    showItem() {
+      return (item) => {
+        return (
+          this.items &&
+          this.isActive &&
+          item.title.toLowerCase().includes(this.model.toLowerCase())
+        );
+      };
+    },
     input: {
       get() {
         return this.model;
@@ -118,7 +142,7 @@ export default {
       return require(`~/assets/icons/${this.icon}.svg`);
     },
     styles() {
-      const activeDropdown = this.model && this.items;
+      const activeDropdown = this.isActive && this.items;
       const styles = {
         "border-radius": this.icon
           ? "2px 0 0 2px"
